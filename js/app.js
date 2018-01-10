@@ -82,7 +82,7 @@ class Player extends Charchater {
 
 	init() {
 		//initial position
-		char.x = 202;
+		this.x = 202;
 		this.y = 404;
 	}
 
@@ -99,11 +99,11 @@ class Player extends Charchater {
 			if so, let the player do a step in the input direction */
 		switch (key) {
 			case 'left':
-				if (char.x - X_STEP > X_MIN)
-				char.x -= X_STEP;
+				if (this.x - X_STEP > X_MIN)
+				this.x -= X_STEP;
 				break;
 			case 'right':
-				if (char.x + X_STEP < X_MAX)
+				if (this.x + X_STEP < X_MAX)
 					this.x += X_STEP;
 				break;
 			case 'up':
