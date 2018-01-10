@@ -1,4 +1,4 @@
-#Classic Arcade Game Clone
+# Classic Arcade Game Clone
 this is a simple **Frogger** Arcade Game
 
 ## How to play
