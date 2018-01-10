@@ -1,30 +1,54 @@
 const
-	maxSpeed = 100,
-	maxEnemies = 10,
-	minEnemies = 2,
-	stepX = 101,
-	stepY = 83,
-	minX = -101,
-	maxX = 505,
-	minY = -83,
-	maxY = 404;
+	MAX_SPEED = 100,
+	MAX_ENEMIES = 10,
+	MIN_ENEMIES = 2,
+	X_MAX = 505,
+	X_MIN = -101,
+	X_STEP = 101,
+	Y_MIN = -83,
+	Y_STEP = 83,
+	Y_MAX = 404,
+	SPRITES = {
+		'boy': 'images/char-boy.png',
+		'bug': 'images/enemy-bug.png',
+		'cat-girl': 'images/char-cat-girl.png',
+		'horn-girl': 'images/char-horn-girl.png',
+		'pink-girl': 'images/char-pink-girl.png',
+		'princess-girl': 'images/char-princess-girl.png'
+	};
 
-// Enemies our player must avoid
-class Enemy {
-	constructor() {
+class Charchater {
+	constructor(sprite) {
 		/* 	The image/sprite for our enemies, this uses
 			a helper we've provided to easily load images */
-		this.sprite = 'images/enemy-bug.png';
+		this.sprite = sprite;
 		this.init();
 	}
 
 	init() {
+		this.x = 0;
+		this.y = 0;
+	}
+
+	render() {
+		//render the sprite
+		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+	}
+}
+
+// Enemies our player must avoid
+class Enemy extends Charchater {
+	constructor() {
+		super(SPRITES['bug']);
+	}
+
+	init() {
 		//randmoize the speed of bugs
-		this.speed = getRandomInt(maxSpeed);
+		this.speed = getRandomInt(MAX_SPEED);
 		//let the bugs start out of the screen
-		this.x = minX;
+		this.x = X_MIN;
 		//randmoize the street row, which the bugs would appear
-		this.y = getRandomInt(3) * stepY;
+		this.y = getRandomInt(3) * Y_STEP;
 	}
 
 	update(dt) {
@@ -34,20 +58,15 @@ class Enemy {
 		this.x += this.speed * dt;
 
 		//let the enemies move in an infinite loop
-		if (this.x > maxX)
-			this.x = minX;
-	}
-
-	render() {
-		//render the sprite
-		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+		if (this.x > X_MAX)
+			this.x = X_MIN;
 	}
 
 	checkCollisions() {
 		/* 	if the distance between the bug and the player is half
 			of the step, then there is a collision */
-		if (Math.abs(this.x - player.x) < (stepX / 2) &&
-			Math.abs(this.y - player.y) < (stepY / 2)) {
+		if (Math.abs(this.x - player.x) < (X_STEP / 2) &&
+			Math.abs(this.y - player.y) < (Y_STEP / 2)) {
 			player.init();
 			score.removeScore();
 		}
@@ -55,36 +74,15 @@ class Enemy {
 }
 
 //main Player class
-class Player {
+class Player extends Charchater {
 
 	constructor(sprite) {
-		this.sprite = this.selectSprite(sprite);
-		this.init();
-	}
-
-	selectSprite(sprite) {
-		switch (sprite) {
-			case 'cat-girl':
-				return 'images/char-cat-girl.png';
-				break;
-			case 'horn-girl':
-				return 'images/char-horn-girl.png';
-				break;
-			case 'pink-girl':
-				return 'images/char-pink-girl.png';
-				break;
-			case 'princess-girl':
-				return 'images/char-princess-girl.png';
-				break;
-			case 'boy':
-			default:
-				return 'images/char-boy.png';
-		}
+		super(SPRITES['horn-girl']);
 	}
 
 	init() {
 		//initial position
-		this.x = 202;
+		char.x = 202;
 		this.y = 404;
 	}
 
@@ -96,30 +94,25 @@ class Player {
 		}
 	}
 
-	render() {
-		//render the sprite
-		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-	}
-
 	handleInput(key) {
 		/* 	checks if the next step is not the min/max of the screen
 			if so, let the player do a step in the input direction */
 		switch (key) {
 			case 'left':
-				if (this.x - stepX > minX)
-					this.x -= stepX;
+				if (char.x - X_STEP > X_MIN)
+				char.x -= X_STEP;
 				break;
 			case 'right':
-				if (this.x + stepX < maxX)
-					this.x += stepX;
+				if (char.x + X_STEP < X_MAX)
+					this.x += X_STEP;
 				break;
 			case 'up':
-				if (this.y - stepY > minY)
-					this.y -= stepY;
+				if (this.y - Y_STEP > Y_MIN)
+					this.y -= Y_STEP;
 				break;
 			case 'down':
-				if (this.y < maxY)
-					this.y += stepY;
+				if (this.y < Y_MAX)
+					this.y += Y_STEP;
 		}
 	}
 }
@@ -155,7 +148,7 @@ Place all enemy objects in an array called allEnemies */
 var allEnemies = [];
 
 //push random no. of enemies in allEnemies Array
-for (let enemies = 0; enemies < getRandomInt(maxEnemies) + minEnemies; enemies++)
+for (let enemies = 0; enemies < getRandomInt(MAX_ENEMIES) + MIN_ENEMIES; enemies++)
 	allEnemies.push(new Enemy());
 
 //Place the player object in a variable called player
