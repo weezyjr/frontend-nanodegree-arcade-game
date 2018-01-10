@@ -47,17 +47,39 @@ class Enemy {
 		/* 	if the distance between the bug and the player is half
 			of the step, then there is a collision */
 		if (Math.abs(this.x - player.x) < (stepX / 2) &&
-			Math.abs(this.y - player.y) < (stepY / 2))
+			Math.abs(this.y - player.y) < (stepY / 2)) {
 			player.init();
+			score.removeScore();
+		}
 	}
 }
 
 //main Player class
 class Player {
 
-	constructor() {
-		this.sprite = 'images/char-boy.png';
+	constructor(sprite) {
+		this.sprite = this.selectSprite(sprite);
 		this.init();
+	}
+
+	selectSprite(sprite) {
+		switch (sprite) {
+			case 'cat-girl':
+				return 'images/char-cat-girl.png';
+				break;
+			case 'horn-girl':
+				return 'images/char-horn-girl.png';
+				break;
+			case 'pink-girl':
+				return 'images/char-pink-girl.png';
+				break;
+			case 'princess-girl':
+				return 'images/char-princess-girl.png';
+				break;
+			case 'boy':
+			default:
+				return 'images/char-boy.png';
+		}
 	}
 
 	init() {
@@ -70,7 +92,7 @@ class Player {
 		//win when reaching the water
 		if (this.y < 0) {
 			this.init();
-			console.log('hooraay');
+			score.addScore();
 		}
 	}
 
@@ -102,14 +124,53 @@ class Player {
 	}
 }
 
+class Score {
+	constructor() {
+		this.value = 0;
+	}
+
+	update() {
+		document.getElementById('score').innerHTML = score.value;
+
+	}
+
+	addScore() {
+		this.value++;
+		this.update();
+	}
+
+
+	removeScore() {
+		this.value = 0;
+		this.update();
+	}
+
+	getScore() {
+		return this.value;
+	}
+}
+
+var scoreProxy = new Proxy(Score, {
+	get(target, propName) {
+		return target[propName];
+	}
+});
+
+
+
 /* 	Now instantiating objects.
-	Place all enemy objects in an array called allEnemies */
+Place all enemy objects in an array called allEnemies */
 var allEnemies = [];
+
 //push random no. of enemies in allEnemies Array
 for (let enemies = 0; enemies < getRandomInt(maxEnemies) + minEnemies; enemies++)
 	allEnemies.push(new Enemy());
-// Place the player object in a variable called player
-var player = new Player();
+
+//Place the player object in a variable called player
+var player = new Player('horn-girl');
+
+//create score
+var score = new Score();
 
 /*	This listens for key presses and sends the keys to your
 	Player.handleInput() method */
