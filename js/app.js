@@ -150,14 +150,6 @@ class Score {
 	}
 }
 
-var scoreProxy = new Proxy(Score, {
-	get(target, propName) {
-		return target[propName];
-	}
-});
-
-
-
 /* 	Now instantiating objects.
 Place all enemy objects in an array called allEnemies */
 var allEnemies = [];
