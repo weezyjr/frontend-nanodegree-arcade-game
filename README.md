@@ -1,6 +1,6 @@
-# Classic Arcade Game Clone :fire:
+# Classic Arcade Game Clone
 
-this is a simple **Frogger** :frog: Arcade Game
+This is a simple **Frogger** :frog: Arcade Game
 
 ![screenshot](/images/ss.png)
 
@@ -13,10 +13,13 @@ Open the "index.html" file using a web browser e.g. (Chrome, Firefox ..).
 ### Instructions
 
 * Use the keyboard arrows to move
-    *_Left_ key: moves a block to the _left_
-    *_Up_ key: moves a block to the _forward_
-    *_Down_ key: moves a block to the _backward_
-    *_Right_ key: moves a block to the _right_
+
+| Keyboard key  | Action |
+| ------------- | ------------- |
+| `Left` | Moves the player a block to the _left_ |
+| `Up` | Moves the player a block _forward_ |
+| `Down` | Moves the player a block _backward_ |
+| `Right`| Moves the player a block to the _right_ |
 
 ### Rules
 
